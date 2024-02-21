@@ -3,6 +3,7 @@ module Base exposing
     , GlobalData
     , Flags
     , LSInfo
+    , ObjectTarget(..)
     )
 
 {-| Base module
@@ -19,6 +20,7 @@ This message is the GLOBAL scope message. This message limits what messsages you
 @docs GlobalData
 @docs Flags
 @docs LSInfo
+@docs ObjectTarget
 
 -}
 
@@ -117,3 +119,9 @@ type alias Flags =
     , timeStamp : Int
     , info : String
     }
+
+
+type ObjectTarget
+    = Parent
+    | Name String
+    | ID Int

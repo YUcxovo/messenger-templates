@@ -33,6 +33,7 @@ Gamecomponents have better speed when communicating with each other. (their mess
 
 -}
 
+import Base exposing (ObjectTarget)
 import Canvas exposing (Renderable, empty)
 import Color exposing (Color)
 import Dict exposing (Dict)
@@ -139,10 +140,17 @@ ComponentByName is the component that has the name you specified.
 ComponentByID is the component that has the id you specified.
 
 -}
+
+
+
+-- type ComponentTarget
+--     = ComponentParentLayer
+--     | ComponentByName String
+--     | ComponentByID Int
+
+
 type ComponentTarget
-    = ComponentParentLayer
-    | ComponentByName String
-    | ComponentByID Int
+    = Component ObjectTarget
 
 
 {-| Data

@@ -16,6 +16,7 @@ The mosy commonly used one is the `updateComponents` function, which will update
 
 -}
 
+import Base exposing (ObjectTarget(..))
 import Canvas exposing (Renderable, group)
 import Dict
 import Lib.Component.Base exposing (Component, ComponentMsg, ComponentTarget(..), DefinedTypes(..))
@@ -56,13 +57,13 @@ update c env =
 match : Component -> ComponentTarget -> Bool
 match c ct =
     case ct of
-        ComponentParentLayer ->
+        Component Parent ->
             False
 
-        ComponentByID x ->
+        Component (ID x) ->
             Dict.get "id" c.data == Just (CDInt x)
 
-        ComponentByName x ->
+        Component (Name x) ->
             c.name == x
 
 
@@ -71,10 +72,10 @@ match c ct =
 super : ComponentTarget -> Bool
 super ct =
     case ct of
-        ComponentParentLayer ->
+        Component Parent ->
             True
 
-        _ ->
+        Component _ ->
             False
 
 

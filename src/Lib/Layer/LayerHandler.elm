@@ -15,6 +15,7 @@ module Lib.Layer.LayerHandler exposing
 
 -}
 
+import Base exposing (ObjectTarget(..))
 import Canvas exposing (Renderable, group)
 import Lib.Env.Env exposing (Env, cleanEnv, patchEnv)
 import Lib.Layer.Base exposing (Layer, LayerMsg, LayerTarget(..))
@@ -50,11 +51,14 @@ updaterec layer env lm =
 match : Layer a b -> LayerTarget -> Bool
 match l t =
     case t of
-        LayerParentScene ->
+        Layer Parent ->
             False
 
-        LayerName n ->
+        Layer (Name n) ->
             n == l.name
+
+        Layer _ ->
+            False
 
 
 {-| Super
@@ -62,10 +66,10 @@ match l t =
 super : LayerTarget -> Bool
 super t =
     case t of
-        LayerParentScene ->
+        Layer Parent ->
             True
 
-        LayerName _ ->
+        Layer _ ->
             False
 
 

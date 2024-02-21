@@ -18,6 +18,7 @@ Using layers can help us deal with different things in different layers.
 
 -}
 
+import Base exposing (ObjectTarget)
 import Canvas exposing (Renderable)
 import Lib.Audio.Base exposing (AudioOption)
 import Lib.Env.Env exposing (Env)
@@ -78,6 +79,13 @@ LayerParentScene is used to send message to the parent scene of the layer.
 LayerName is used to send message to a specific layer.
 
 -}
+
+
+
+-- type LayerTarget
+--     = LayerParentScene
+--     | LayerName String
+
+
 type LayerTarget
-    = LayerParentScene
-    | LayerName String
+    = Layer ObjectTarget

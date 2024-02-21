@@ -10,7 +10,7 @@ module SceneProtos.$0.GameComponents.$1.Model exposing (initModel, updateModel, 
 -}
 import Canvas exposing (Renderable)
 import Lib.Env.Env exposing (Env)
-import SceneProtos.$0.GameComponent.Base exposing (Data, GameComponentInitData(..), GameComponentMsg, GameComponentTarget, nullData)
+import SceneProtos.$0.GameComponent.Base exposing (Data, GameComponentInitData(..), GameComponentMsg, GameComponentTarget(..), nullData)
 import SceneProtos.$0.LayerBase exposing (CommonData)
 
 

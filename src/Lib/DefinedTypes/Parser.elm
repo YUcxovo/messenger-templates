@@ -28,6 +28,7 @@ You have to use functions here to decode and encode DefinedTypes.
 
 -}
 
+import Base exposing (ObjectTarget(..))
 import Color exposing (Color)
 import Dict exposing (Dict)
 import Lib.Component.Base exposing (Component, ComponentMsg, ComponentMsg_(..), ComponentTarget(..), DefinedTypes(..), nullComponent)
@@ -196,7 +197,7 @@ dComponentTargetGet f s =
             x
 
         _ ->
-            ComponentParentLayer
+            Component Parent
 
 
 {-| dComponentTargetSet

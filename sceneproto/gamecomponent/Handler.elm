@@ -10,6 +10,7 @@ module SceneProtos.$0.GameComponent.Handler exposing
 
 -}
 
+import Base exposing (ObjectTarget(..))
 import Canvas exposing (Renderable, group)
 import Lib.Env.Env exposing (Env, cleanEnv, patchEnv)
 import Messenger.GeneralModel exposing (viewModelList)
@@ -46,13 +47,13 @@ update gc env =
 match : GameComponent -> GameComponentTarget -> Bool
 match gc tar =
     case tar of
-        GCParent ->
+        GameComponent Parent ->
             False
 
-        GCById x ->
+        GameComponent (ID x) ->
             x == gc.data.uid
 
-        GCByName x ->
+        GameComponent (Name x) ->
             x == gc.name
 
 
@@ -61,10 +62,10 @@ match gc tar =
 super : GameComponentTarget -> Bool
 super tar =
     case tar of
-        GCParent ->
+        GameComponent Parent ->
             True
 
-        _ ->
+        GameComponent _ ->
             False
 
 

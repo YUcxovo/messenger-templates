@@ -40,7 +40,7 @@ handleComponentMsg : Env -> ComponentMsg -> Model -> ( Model, List ( LayerTarget
 handleComponentMsg env msg model =
     case msg of
         SOMMsg sommsg ->
-            ( model, [ ( LayerParentScene, SOMMsg sommsg ) ], env )
+            ( model, [ ( Layer Parent, SOMMsg sommsg ) ], env )
 
         _ ->
             ( model, [], env )
