@@ -5,9 +5,6 @@ module Lib.DefinedTypes.Parser exposing
     , dStringGet, dStringSet
     , dListDTGet, dListDTSet
     , dDictDTGet, dDictDTSet
-    , dComponentGet, dComponentSet
-    , dComponentTargetGet, dComponentTargetSet
-    , dComponentMsgGet, dComponentMsgSet
     , dColorGet, dColorSet
     )
 
@@ -21,9 +18,6 @@ You have to use functions here to decode and encode DefinedTypes.
 @docs dStringGet, dStringSet
 @docs dListDTGet, dListDTSet
 @docs dDictDTGet, dDictDTSet
-@docs dComponentGet, dComponentSet
-@docs dComponentTargetGet, dComponentTargetSet
-@docs dComponentMsgGet, dComponentMsgSet
 @docs dColorGet, dColorSet
 
 -}
@@ -31,7 +25,7 @@ You have to use functions here to decode and encode DefinedTypes.
 import Base exposing (ObjectTarget(..))
 import Color exposing (Color)
 import Dict exposing (Dict)
-import Lib.Component.Base exposing (Component, ComponentMsg, ComponentMsg_(..), ComponentTarget(..), DefinedTypes(..), nullComponent)
+import Lib.DefinedTypes.DefTypes exposing (DefinedTypes(..))
 import Lib.Scene.Base exposing (MsgBase(..))
 
 
@@ -44,7 +38,7 @@ dIntGet f s =
             0
     in
     case Dict.get s f of
-        Just (CDInt x) ->
+        Just (DTInt x) ->
             x
 
         _ ->
@@ -55,7 +49,7 @@ dIntGet f s =
 -}
 dIntSet : String -> Int -> Dict String DefinedTypes -> Dict String DefinedTypes
 dIntSet s t f =
-    Dict.update s (\_ -> Just (CDInt t)) f
+    Dict.update s (\_ -> Just (DTInt t)) f
 
 
 {-| dFloatGet
@@ -67,7 +61,7 @@ dFloatGet f s =
             0
     in
     case Dict.get s f of
-        Just (CDFloat x) ->
+        Just (DTFloat x) ->
             x
 
         _ ->
@@ -78,7 +72,7 @@ dFloatGet f s =
 -}
 dFloatSet : String -> Float -> Dict String DefinedTypes -> Dict String DefinedTypes
 dFloatSet s t f =
-    Dict.update s (\_ -> Just (CDFloat t)) f
+    Dict.update s (\_ -> Just (DTFloat t)) f
 
 
 {-| dBoolGet
@@ -90,7 +84,7 @@ dBoolGet f s =
             False
     in
     case Dict.get s f of
-        Just (CDBool x) ->
+        Just (DTBool x) ->
             x
 
         _ ->
@@ -101,7 +95,7 @@ dBoolGet f s =
 -}
 dBoolSet : String -> Bool -> Dict String DefinedTypes -> Dict String DefinedTypes
 dBoolSet s t f =
-    Dict.update s (\_ -> Just (CDBool t)) f
+    Dict.update s (\_ -> Just (DTBool t)) f
 
 
 {-| dStringGet
@@ -113,7 +107,7 @@ dStringGet f s =
             ""
     in
     case Dict.get s f of
-        Just (CDString x) ->
+        Just (DTString x) ->
             x
 
         _ ->
@@ -124,7 +118,7 @@ dStringGet f s =
 -}
 dStringSet : String -> String -> Dict String DefinedTypes -> Dict String DefinedTypes
 dStringSet s t f =
-    Dict.update s (\_ -> Just (CDString t)) f
+    Dict.update s (\_ -> Just (DTString t)) f
 
 
 {-| dListDTGet
@@ -136,7 +130,7 @@ dListDTGet f s =
             []
     in
     case Dict.get s f of
-        Just (CDListDT x) ->
+        Just (DTListDT x) ->
             x
 
         _ ->
@@ -147,7 +141,7 @@ dListDTGet f s =
 -}
 dListDTSet : String -> List DefinedTypes -> Dict String DefinedTypes -> Dict String DefinedTypes
 dListDTSet s t f =
-    Dict.update s (\_ -> Just (CDListDT t)) f
+    Dict.update s (\_ -> Just (DTListDT t)) f
 
 
 {-| dDictDTGet
@@ -155,7 +149,7 @@ dListDTSet s t f =
 dDictDTGet : Dict String DefinedTypes -> String -> Dict String DefinedTypes
 dDictDTGet f s =
     case Dict.get s f of
-        Just (CDDictDT x) ->
+        Just (DTDictDT x) ->
             x
 
         _ ->
@@ -166,64 +160,7 @@ dDictDTGet f s =
 -}
 dDictDTSet : String -> Dict String DefinedTypes -> Dict String DefinedTypes -> Dict String DefinedTypes
 dDictDTSet s t f =
-    Dict.update s (\_ -> Just (CDDictDT t)) f
-
-
-{-| dComponentGet
--}
-dComponentGet : Dict String DefinedTypes -> String -> Component
-dComponentGet f s =
-    case Dict.get s f of
-        Just (CDComponent x) ->
-            x
-
-        _ ->
-            nullComponent
-
-
-{-| dComponentSet
--}
-dComponentSet : String -> Component -> Dict String DefinedTypes -> Dict String DefinedTypes
-dComponentSet s t f =
-    Dict.update s (\_ -> Just (CDComponent t)) f
-
-
-{-| dComponentTargetGet
--}
-dComponentTargetGet : Dict String DefinedTypes -> String -> ComponentTarget
-dComponentTargetGet f s =
-    case Dict.get s f of
-        Just (CDComponentTarget x) ->
-            x
-
-        _ ->
-            Component Parent
-
-
-{-| dComponentTargetSet
--}
-dComponentTargetSet : String -> ComponentTarget -> Dict String DefinedTypes -> Dict String DefinedTypes
-dComponentTargetSet s t f =
-    Dict.update s (\_ -> Just (CDComponentTarget t)) f
-
-
-{-| dComponentMsgGet
--}
-dComponentMsgGet : Dict String DefinedTypes -> String -> ComponentMsg
-dComponentMsgGet f s =
-    case Dict.get s f of
-        Just (CDComponentMsg x) ->
-            x
-
-        _ ->
-            OtherMsg NullComponentMsg
-
-
-{-| dComponentMsgSet
--}
-dComponentMsgSet : String -> ComponentMsg -> Dict String DefinedTypes -> Dict String DefinedTypes
-dComponentMsgSet s t f =
-    Dict.update s (\_ -> Just (CDComponentMsg t)) f
+    Dict.update s (\_ -> Just (DTDictDT t)) f
 
 
 {-| dColorGet
@@ -231,7 +168,7 @@ dComponentMsgSet s t f =
 dColorGet : Dict String DefinedTypes -> String -> Color
 dColorGet f s =
     case Dict.get s f of
-        Just (CDColor x) ->
+        Just (DTColor x) ->
             x
 
         _ ->
@@ -242,4 +179,4 @@ dColorGet f s =
 -}
 dColorSet : String -> Color -> Dict String DefinedTypes -> Dict String DefinedTypes
 dColorSet s t f =
-    Dict.update s (\_ -> Just (CDColor t)) f
+    Dict.update s (\_ -> Just (DTColor t)) f
