@@ -40,6 +40,8 @@ This is the msg data for main.
 
 `KeyDown`, `KeyUp` records the keyboard events
 
+`MouseWheel` records the wheel event for mouse, it can be also used for touchpad
+
 -}
 type Msg
     = Tick Time.Posix
@@ -52,6 +54,7 @@ type Msg
     | MouseDown Int ( Float, Float )
     | MouseUp ( Float, Float )
     | MouseMove ( Float, Float )
+    | MouseWheel Int
     | Prompt String String
     | NullMsg
 

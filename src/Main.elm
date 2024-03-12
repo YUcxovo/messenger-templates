@@ -15,6 +15,7 @@ import Common exposing (Model, audio, initGlobalData, resetSceneStartTime, updat
 import Dict
 import Html exposing (Html)
 import Html.Attributes exposing (style)
+import Html.Events exposing (on)
 import Json.Decode as Decode
 import Lib.Audio.Audio exposing (audioPortFromJS, audioPortToJS, loadAudio, stopAudio)
 import Lib.Coordinate.Coordinates exposing (fromMouseToVirtual, getStartPoint, maxHandW)
@@ -455,7 +456,7 @@ view _ model =
                 , makeTransition model.currentGlobalData transitiondata <| (getCurrentScene model).view { msg = NullMsg, t = model.time, globalData = model.currentGlobalData, commonData = () } model.currentData
                 ]
     in
-    Html.div []
+    Html.div [ on "wheel" (Decode.map MouseWheel (Decode.field "deltaY" Decode.int)) ]
         (case model.currentGlobalData.extraHTML of
             Just x ->
                 [ canvas, x ]
