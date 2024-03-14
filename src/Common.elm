@@ -18,6 +18,7 @@ module Common exposing
 
 import Audio exposing (Audio, AudioData)
 import Base exposing (GlobalData, Msg(..))
+import Browser.Events exposing (Visibility(..))
 import Dict
 import Lib.Audio.Audio exposing (getAudio)
 import Lib.Audio.Base exposing (AudioRepo)
@@ -101,6 +102,7 @@ initGlobalData =
         }
     , currentTimeStamp = Time.millisToPosix 0
     , sceneStartTime = 0
+    , windowVisibility = Visible
     , mousePos = ( 0, 0 )
     , extraHTML = Nothing
     , localStorage = decodeLSInfo ""
