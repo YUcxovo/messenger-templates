@@ -1,12 +1,10 @@
 module Scenes.$0.$1.Common exposing
     ( Model, nullModel, Env
-    , updateComponentsByHandler
     )
 
 {-| Common module
 
 @docs Model, nullModel, Env
-@docs updateComponentsByHandler
 
 -}
 
@@ -38,25 +36,3 @@ nullModel =
 type alias Env =
     Env.Env CommonData
 
-
-{-| Update model components by handler
-
-Don't modify this function
-
--}
-updateComponentsByHandler : Env -> Model -> (Env -> ComponentMsg -> Model -> ( Model, List ( LayerTarget, LayerMsg ), Env )) -> ( Model, List ( LayerTarget, LayerMsg ), Env )
-updateComponentsByHandler env model handle =
-    let
-        ( newComponents, newMsg, newEnv ) =
-            updateComponents (Env.noCommonData env) model.components
-    in
-    List.foldl
-        (\cTMsg ( m, cmsg, cenv ) ->
-            let
-                ( nm, nmsg, nenv ) =
-                    handle cenv cTMsg m
-            in
-            ( nm, nmsg ++ cmsg, nenv )
-        )
-        ( { model | components = newComponents }, [], Env.addCommonData env.commonData newEnv )
-        newMsg

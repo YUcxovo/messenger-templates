@@ -13,12 +13,12 @@ module Scenes.$0.$1.Model exposing
 -}
 
 import Canvas exposing (Renderable)
-import Lib.Component.Base exposing (ComponentMsg)
-import Lib.Component.ComponentHandler exposing (viewComponent)
+import Lib.Component.Base exposing (ComponentMsg, ComponentTarget)
+import Lib.Component.ComponentHandler exposing (updateComponents, updateComponentswithTarget, viewComponent)
 import Lib.Env.Env exposing (noCommonData)
 import Lib.Layer.Base exposing (LayerMsg, LayerTarget(..))
 import Lib.Scene.Base exposing (MsgBase(..))
-import Scenes.$0.$1.Common exposing (Env, Model, updateComponentsByHandler)
+import Scenes.$0.$1.Common exposing (Env, Model)
 import Scenes.$0.SceneInit exposing ($0Init)
 
 
@@ -32,9 +32,36 @@ initModel _ _ =
 
 
 {-| 
+Update the layer itself.
+
+Deal with the normal msgs by using env.msg
+
+Add your logic here.
+
+-}
+updateBasic : Env -> Model -> ( Model, List ( LayerTarget, LayerMsg ), Env )
+updateBasic env model =
+    ( model, [], env )
+
+
+{-| 
+Distribute the msgs that you want to send to all components
+
+Add your logic here.
+
+-}
+distributorComponents : Env -> Model -> ( Model, ( List ( LayerTarget, LayerMsg ), List ( ComponentTarget, ComponentMsg ) ), Env )
+distributorComponents env model =
+    ( model, ( [], [] ), env )
+
+    
+{-| 
 Handle component messages (that are sent to this layer).
 
 Note that the comonent messanges with SOMMsg type will be directly sent to the scene.
+
+Add your logic here.
+
 -}
 handleComponentMsg : Env -> ComponentMsg -> Model -> ( Model, List ( LayerTarget, LayerMsg ), Env )
 handleComponentMsg env msg model =
@@ -49,12 +76,43 @@ handleComponentMsg env msg model =
 {-| updateModel
 Default update function
 
-Add your logic to handle Msg here
+Basically you don't need to modify this funtion
 
 -}
 updateModel : Env -> Model -> ( Model, List ( LayerTarget, LayerMsg ), Env )
 updateModel env model =
-    updateComponentsByHandler env model handleComponentMsg
+    let
+        ( nm1, nlmsg1, nenv1 ) =
+            updateBasic env model
+
+        ( ncoms1, ncmsg1, nenvwoc1 ) =
+            updateComponents (Env.noCommonData nenv1) nm1.components
+
+        nenv2 =
+            Env.addCommonData nenv1.commonData nenvwoc1
+
+        nm2 =
+            { nm1 | components = ncoms1 }
+
+        ( nm3, ( nlmsg2, ntocmsg ), nenv3 ) =
+            distributorComponents nenv2 nm2
+
+        ( ncoms2, ncmsg2, nenvwoc2 ) =
+            updateComponentswithTarget (Env.noCommonData nenv3) ntocmsg nm3.components
+
+        nenv4 =
+            Env.addCommonData nenv3.commonData nenvwoc2
+    in
+    List.foldl
+        (\cTMsg ( m, cmsg, cenv ) ->
+            let
+                ( nm, nmsg, nenv ) =
+                    handleComponentMsg cenv cTMsg m
+            in
+            ( nm, nmsg ++ cmsg, nenv )
+        )
+        ( { nm3 | components = ncoms2 }, nlmsg1 ++ nlmsg2, nenv4 )
+        (ncmsg1 ++ ncmsg2)
 
 
 {-| updateModelRec

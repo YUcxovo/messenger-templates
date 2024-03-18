@@ -1,6 +1,6 @@
 module Lib.Component.ComponentHandler exposing
     ( update, updaterec, match, super, recBody
-    , updateComponents
+    , updateComponents, updateComponentswithTarget
     , viewComponent
     )
 
@@ -11,7 +11,7 @@ You can use these functions to handle components.
 The mosy commonly used one is the `updateComponents` function, which will update all components recursively.
 
 @docs update, updaterec, match, super, recBody
-@docs updateComponents
+@docs updateComponents, updateComponentswithTarget
 @docs viewComponent
 
 -}
@@ -24,7 +24,7 @@ import Lib.DefinedTypes.DefTypes exposing (DefinedTypes(..))
 import Lib.Env.Env exposing (Env, cleanEnv, patchEnv)
 import Messenger.GeneralModel exposing (viewModelList)
 import Messenger.Recursion exposing (RecBody)
-import Messenger.RecursionList exposing (updateObjects)
+import Messenger.RecursionList exposing (updateObjects, updateObjectsWithTarget)
 
 
 
@@ -101,6 +101,16 @@ Return a list of messages sent to the parentlayer.
 updateComponents : Env () -> List Component -> ( List Component, List ComponentMsg, Env () )
 updateComponents env =
     updateObjects recBody env
+
+
+{-| Update all the components in a list with some tuples of target and msg, then recursively update the components which have messenges sent.
+
+Return a list of messages sent to the parentlayer.
+
+-}
+updateComponentswithTarget : Env () -> List ( ComponentTarget, ComponentMsg ) -> List Component -> ( List Component, List ComponentMsg, Env () )
+updateComponentswithTarget env msg =
+    updateObjectsWithTarget recBody env msg
 
 
 {-| Generate the view of the components

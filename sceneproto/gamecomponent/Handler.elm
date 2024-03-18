@@ -1,12 +1,14 @@
 module SceneProtos.$0.GameComponent.Handler exposing
     ( update, updaterec, match, super, recBody
-    , updateGC, viewGC
+    , updateGC, updateGCwithTarget
+    , viewGC
     )
 
 {-| Handler to update game components
 
 @docs update, updaterec, match, super, recBody
-@docs updateGC, viewGC
+@docs updateGC, updateGCwithTarget
+@docs viewGC
 
 -}
 
@@ -15,7 +17,7 @@ import Canvas exposing (Renderable, group)
 import Lib.Env.Env exposing (Env, cleanEnv, patchEnv)
 import Messenger.GeneralModel exposing (viewModelList)
 import Messenger.Recursion exposing (RecBody)
-import Messenger.RecursionList exposing (updateObjects)
+import Messenger.RecursionList exposing (updateObjects, updateObjectsWithTarget)
 import SceneProtos.$0.GameComponent.Base exposing (GameComponent, GameComponentMsg(..), GameComponentTarget(..))
 import SceneProtos.$0.LayerBase exposing (CommonData)
 
@@ -82,18 +84,24 @@ recBody =
     }
 
 
-{-| Update all the components in an array and recursively update the components which have messenges sent.
+{-| Update all the gamecomponents in an array and recursively update the gamecomponents which have messenges sent.
 
 Return a list of messages sent to the parentlayer.
 
 -}
 updateGC : Env CommonData -> List GameComponent -> ( List GameComponent, List GameComponentMsg, Env CommonData )
 updateGC env xs =
-    let
-        ( newGC, newMsg, newEnv ) =
-            updateObjects recBody env xs
-    in
-    ( newGC, newMsg, newEnv )
+    updateObjects recBody env
+
+
+{-| Update all the gamecomponents in a list with some tuples of target and msg, then recursively update the gamecomponents which have messenges sent.
+
+Return a list of messages sent to the parentlayer.
+
+-}
+updateGCwithTarget : Env CommonData -> List ( GameComponentTarget, GameComponentMsg ) -> List GameComponent -> ( List GameComponent, List GameComponentMsg, Env CommonData )
+updateGCwithTarget env msg =
+    updateObjectsWithTarget recBody env msg
 
 
 {-| Generate the view of the components
