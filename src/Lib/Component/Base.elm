@@ -3,9 +3,6 @@ module Lib.Component.Base exposing
     , ComponentTarget(..)
     , ComponentInitData(..)
     , Component
-    , ComponentTypes(..)
-    , Data
-    , nullData
     )
 
 {-|
@@ -27,9 +24,6 @@ Gamecomponents have better speed when communicating with each other. (their mess
 @docs ComponentTarget
 @docs ComponentInitData
 @docs Component
-@docs ComponentTypes
-@docs Data
-@docs nullData
 
 -}
 
@@ -46,6 +40,29 @@ import Messenger.GeneralModel exposing (GeneralModel)
 --- Component Base
 
 
+{-| DatawithID
+
+some `component` data with uid.
+
+-}
+type alias DatawithID data =
+    { uid : Int
+    , otherdata : data
+    }
+
+
+{-| addID
+
+add a uid for some `component` data.
+
+-}
+addID : Int -> data -> DatawithID data
+addID id data =
+    { uid = id
+    , otherdata = data
+    }
+
+
 {-| Component
 
 The data entry doesn't have a fixed type, you can use any type you want.
@@ -57,8 +74,8 @@ If your object has many properties that are in common, you should create your ow
 Examples are [GameComponent](https://github.com/linsyking/Reweave/blob/master/src/Lib/CoreEngine/GameComponent/Base.elm) which has a lot of game related properties.
 
 -}
-type alias Component =
-    GeneralModel Data (Env ()) ComponentMsg ComponentTarget Renderable
+type alias Component a =
+    GeneralModel (DatawithID a) (Env ()) ComponentMsg ComponentTarget Renderable
 
 
 {-| Data type used to initialize a component.
@@ -102,10 +119,8 @@ type ComponentMsg_
     | ComponentBoolMsg Bool
     | ComponentStringDataMsg String ComponentMsg_
     | ComponentListMsg (List ComponentMsg_)
-    | ComponentComponentMsg Component
     | ComponentComponentTargetMsg ComponentTarget
     | ComponentNamedMsg ComponentTarget ComponentMsg_
-    | ComponentDTMsg DefinedTypes
     | NullComponentMsg
 
 
@@ -118,44 +133,5 @@ ComponentByName is the component that has the name you specified.
 ComponentByID is the component that has the id you specified.
 
 -}
-
-
-
--- type ComponentTarget
---     = ComponentParentLayer
---     | ComponentByName String
---     | ComponentByID Int
-
-
 type ComponentTarget
     = Component ObjectTarget
-
-
-{-| Defined Types for Component
--}
-type ComponentTypes
-    = CP Component
-
-
-{-| Data
-
-Data is the dictionary based on DefinedTypes.
-
-This is the `Data` datatype for Component.
-
--}
-type alias Data =
-    { uid : Int
-    , sublist : List ComponentTypes
-    , extra : Dict String DefinedTypes
-    }
-
-
-{-| nullData
--}
-nullData : Data
-nullData =
-    { uid = 0
-    , sublist = []
-    , extra = Dict.empty
-    }

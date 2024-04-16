@@ -10,8 +10,22 @@ module SceneProtos.$0.GameComponents.$1.Model exposing (initModel, updateModel, 
 -}
 import Canvas exposing (Renderable)
 import Lib.Env.Env exposing (Env)
-import SceneProtos.$0.GameComponent.Base exposing (Data, GameComponentInitData(..), GameComponentMsg, GameComponentTarget(..), nullData)
+import SceneProtos.$0.GameComponent.Base exposing (GameComponentInitData(..), GameComponentMsg, GameComponentTarget(..))
+import SceneProtos.$0.GameComponents.GameComponentSettings exposing ($1Data, null$1Data)
 import SceneProtos.$0.LayerBase exposing (CommonData)
+
+
+{-| Data
+-}
+type alias Data =
+    $1Data
+
+
+{-| NullData
+-}
+nullData : Data
+nullData =
+    null$1Data
 
 
 {-| initModel
@@ -22,7 +36,7 @@ Initialize the model. It should update the id.
 initModel : Env () -> GameComponentInitData -> Data
 initModel _ initData =
     case initData of
-        GCIdData _ (GC$1InitData _) ->
+        GC$1InitData _ ->
             -- Change this to initialize your GC
             nullData
 

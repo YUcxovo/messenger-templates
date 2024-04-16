@@ -18,7 +18,6 @@ The mosy commonly used one is the `updateComponents` function, which will update
 
 import Base exposing (ObjectTarget(..))
 import Canvas exposing (Renderable, group)
-import Dict
 import Lib.Component.Base exposing (Component, ComponentMsg, ComponentTarget(..))
 import Lib.DefinedTypes.DefTypes exposing (DefinedTypes(..))
 import Lib.Env.Env exposing (Env, cleanEnv, patchEnv)
@@ -33,7 +32,7 @@ import Messenger.RecursionList exposing (updateObjects, updateObjectsWithTarget)
 
 {-| RecUpdater
 -}
-updaterec : Component -> Env () -> ComponentMsg -> ( Component, List ( ComponentTarget, ComponentMsg ), Env () )
+updaterec : Component a -> Env () -> ComponentMsg -> ( Component a, List ( ComponentTarget, ComponentMsg ), Env () )
 updaterec c env ct =
     let
         ( newx, newmsg, newenv ) =
@@ -44,7 +43,7 @@ updaterec c env ct =
 
 {-| Updater
 -}
-update : Component -> Env () -> ( Component, List ( ComponentTarget, ComponentMsg ), Env () )
+update : Component a -> Env () -> ( Component a, List ( ComponentTarget, ComponentMsg ), Env () )
 update c env =
     let
         ( newx, newmsg, newenv ) =
@@ -55,7 +54,7 @@ update c env =
 
 {-| Matcher
 -}
-match : Component -> ComponentTarget -> Bool
+match : Component a -> ComponentTarget -> Bool
 match c ct =
     case ct of
         Component Parent ->
@@ -82,7 +81,7 @@ super ct =
 
 {-| Rec body for the component
 -}
-recBody : RecBody Component ComponentMsg (Env ()) ComponentTarget
+recBody : RecBody (Component a) ComponentMsg (Env ()) ComponentTarget
 recBody =
     { update = update
     , updaterec = updaterec
@@ -98,7 +97,7 @@ recBody =
 Return a list of messages sent to the parentlayer.
 
 -}
-updateComponents : Env () -> List Component -> ( List Component, List ComponentMsg, Env () )
+updateComponents : Env () -> List (Component a) -> ( List (Component a), List ComponentMsg, Env () )
 updateComponents env =
     updateObjects recBody env
 
@@ -108,13 +107,13 @@ updateComponents env =
 Return a list of messages sent to the parentlayer.
 
 -}
-updateComponentswithTarget : Env () -> List ( ComponentTarget, ComponentMsg ) -> List Component -> ( List Component, List ComponentMsg, Env () )
+updateComponentswithTarget : Env () -> List ( ComponentTarget, ComponentMsg ) -> List (Component a) -> ( List (Component a), List ComponentMsg, Env () )
 updateComponentswithTarget env msg =
     updateObjectsWithTarget recBody env msg
 
 
 {-| Generate the view of the components
 -}
-viewComponent : Env () -> List Component -> Renderable
+viewComponent : Env () -> List (Component a) -> Renderable
 viewComponent env xs =
     group [] <| viewModelList env xs

@@ -29,23 +29,41 @@ import Messenger.GeneralModel exposing (GeneralModel)
 import SceneProtos.$0.LayerBase exposing (CommonData)
 
 
+
+--- GameComponent Base
+
+
+{-| DatawithID
+
+some `gamecomponent` data with uid.
+
+-}
+type alias DatawithID data =
+    { uid : Int
+    , otherdata : data
+    }
+
+
+{-| addID
+
+add a uid for some `gamecomponent` data.
+
+-}
+addID : Int -> data -> DatawithID data
+addID id data =
+    { uid = id
+    , otherdata = data
+    }
+
+
 {-| GameComponent Definition
 -}
-type alias GameComponent =
-    GeneralModel Data (Env CommonData) GameComponentMsg GameComponentTarget (List ( Renderable, Int ))
+type alias GameComponent a =
+    GeneralModel (DatawithID a) (Env CommonData) GameComponentMsg GameComponentTarget (List ( Renderable, Int ))
 
 
 {-| GameComponent Target
 -}
-
-
-
--- type GameComponentTarget
---     = GCParent
---     | GCById Int
---     | GCByName String
-
-
 type GameComponentTarget
     = GameComponent ObjectTarget
 
@@ -54,32 +72,6 @@ type GameComponentTarget
 -}
 type GameComponentMsg
     = NullGCMsg
-
-{-| Defined Types for GameComponent
--}
-type GameComponentTypes
-    = GC GameComponent
-
-
-{-| Add your data here!
--}
-type alias Data =
-    { uid : Int
-    , alive : Bool
-    , sublist : List GameComponentTypes
-    , extra : Dict String GameComponentTypes
-    }
-
-
-{-| nullData
--}
-nullData : Data
-nullData =
-    { uid = 0
-    , alive = True
-    , sublist = []
-    , extra = Dict.empty
-    }
 
 
 {-| GC init data, don't modify this by hand!

@@ -15,29 +15,32 @@ This is a component model module. It should define init, update and view model.
 -}
 
 import Canvas exposing (Renderable, empty)
-import Dict
-import Lib.Component.Base exposing (ComponentInitData(..), ComponentMsg, ComponentTarget(..), ComponentTypes(..), Data, nullData)
-import Lib.DefinedTypes.DefTypes exposing (DefinedTypes(..))
+import Components.ComponentSettings exposing ($1Data, null$1Data)
+import Lib.Component.Base exposing (ComponentInitData(..), ComponentMsg, ComponentMsg_(..), ComponentTarget(..))
 import Lib.Env.Env exposing (Env)
+
+
+{-| Data
+-}
+type alias Data =
+    $1Data
+
+
+{-| NullData
+-}
+nullData : Data
+nullData =
+    null$1Data
 
 
 {-| initModel
 
-Initialize the model. It should update the id.
+Initialize the model.
 
 -}
 initModel : Env () -> ComponentInitData -> Data
-initModel _ i =
-    case i of
-        ComponentID id _ ->
-            { uid = id
-            , sublist = []
-            , extra =
-                Dict.fromList []
-            }
-
-        _ ->
-            nullData
+initModel _ _ =
+    nullData
 
 
 {-| updateModel

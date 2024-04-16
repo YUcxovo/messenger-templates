@@ -24,7 +24,7 @@ import SceneProtos.$0.LayerBase exposing (CommonData)
 
 {-| RecUpdater
 -}
-updaterec : GameComponent -> Env CommonData -> GameComponentMsg -> ( GameComponent, List ( GameComponentTarget, GameComponentMsg ), Env CommonData )
+updaterec : GameComponent a -> Env CommonData -> GameComponentMsg -> ( GameComponent a, List ( GameComponentTarget, GameComponentMsg ), Env CommonData )
 updaterec gc env msg =
     let
         ( newGC, newMsg, newEnv ) =
@@ -35,7 +35,7 @@ updaterec gc env msg =
 
 {-| Updater
 -}
-update : GameComponent -> Env CommonData -> ( GameComponent, List ( GameComponentTarget, GameComponentMsg ), Env CommonData )
+update : GameComponent a -> Env CommonData -> ( GameComponent a, List ( GameComponentTarget, GameComponentMsg ), Env CommonData )
 update gc env =
     let
         ( newGC, newMsg, newEnv ) =
@@ -46,7 +46,7 @@ update gc env =
 
 {-| Matcher
 -}
-match : GameComponent -> GameComponentTarget -> Bool
+match : GameComponent a -> GameComponentTarget -> Bool
 match gc tar =
     case tar of
         GameComponent Parent ->
@@ -73,7 +73,7 @@ super tar =
 
 {-| Rec body for the component
 -}
-recBody : RecBody GameComponent GameComponentMsg (Env CommonData) GameComponentTarget
+recBody : RecBody (GameComponent a) GameComponentMsg (Env CommonData) GameComponentTarget
 recBody =
     { update = update
     , updaterec = updaterec
@@ -89,7 +89,7 @@ recBody =
 Return a list of messages sent to the parentlayer.
 
 -}
-updateGC : Env CommonData -> List GameComponent -> ( List GameComponent, List GameComponentMsg, Env CommonData )
+updateGC : Env CommonData -> List (GameComponent a) -> ( List (GameComponent a), List GameComponentMsg, Env CommonData )
 updateGC env xs =
     updateObjects recBody env
 
@@ -99,14 +99,14 @@ updateGC env xs =
 Return a list of messages sent to the parentlayer.
 
 -}
-updateGCwithTarget : Env CommonData -> List ( GameComponentTarget, GameComponentMsg ) -> List GameComponent -> ( List GameComponent, List GameComponentMsg, Env CommonData )
+updateGCwithTarget : Env CommonData -> List ( GameComponentTarget, GameComponentMsg ) -> List (GameComponent a) -> ( List (GameComponent a), List GameComponentMsg, Env CommonData )
 updateGCwithTarget env msg =
     updateObjectsWithTarget recBody env msg
 
 
 {-| Generate the view of the components
 -}
-viewGC : Env CommonData -> List GameComponent -> Renderable
+viewGC : Env CommonData -> List (GameComponent a) -> Renderable
 viewGC env xs =
     group [] <|
         List.map (\( a, _ ) -> a) <|
