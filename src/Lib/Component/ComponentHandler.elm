@@ -19,7 +19,6 @@ The mosy commonly used one is the `updateComponents` function, which will update
 import Base exposing (ObjectTarget(..))
 import Canvas exposing (Renderable, group)
 import Lib.Component.Base exposing (Component, ComponentMsg, ComponentTarget(..))
-import Lib.DefinedTypes.DefTypes exposing (DefinedTypes(..))
 import Lib.Env.Env exposing (Env, cleanEnv, patchEnv)
 import Messenger.GeneralModel exposing (viewModelList)
 import Messenger.Recursion exposing (RecBody)

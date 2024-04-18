@@ -1,5 +1,6 @@
 module Lib.Component.Base exposing
-    ( ComponentMsg, ComponentMsg_(..)
+    ( DatawithID, addID
+    , ComponentMsg, ComponentMsg_(..)
     , ComponentTarget(..)
     , ComponentInitData(..)
     , Component
@@ -20,6 +21,7 @@ It is **not** fast to communicate between many components.
 
 Gamecomponents have better speed when communicating with each other. (their message types are built-in)
 
+@docs DatawithID, addID
 @docs ComponentMsg, ComponentMsg_
 @docs ComponentTarget
 @docs ComponentInitData
@@ -29,8 +31,6 @@ Gamecomponents have better speed when communicating with each other. (their mess
 
 import Base exposing (ObjectTarget)
 import Canvas exposing (Renderable)
-import Dict exposing (Dict)
-import Lib.DefinedTypes.DefTypes exposing (DefinedTypes)
 import Lib.Env.Env exposing (Env)
 import Lib.Scene.Base exposing (MsgBase)
 import Messenger.GeneralModel exposing (GeneralModel)
