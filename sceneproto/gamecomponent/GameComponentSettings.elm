@@ -23,16 +23,3 @@ type GameComponentType
 
 type alias GameComponentT =
     GameComponent GameComponentType
-
-
-
---- ManData ---
-
-
-type alias ManData =
-    { alive : Bool}
-
-
-nullManData : ManData
-nullManData =
-    { alive = True}

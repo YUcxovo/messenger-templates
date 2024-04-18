@@ -25,15 +25,3 @@ type ComponentType
 type alias ComponentT =
     Component ComponentType
 
-
-
---- ConsoleData ---
-
-
-type alias ConsoleData =
-    {}
-
-
-nullConsoleData : ConsoleData
-nullConsoleData =
-    {}
