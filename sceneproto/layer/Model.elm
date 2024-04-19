@@ -121,5 +121,6 @@ If you have other elements than components, add them after viewComponent.
 
 -}
 viewModel : Env -> Model -> Renderable
-viewModel _ _ =
-    empty
+viewModel env model =
+    viewGC env model.gamecomponents
+
