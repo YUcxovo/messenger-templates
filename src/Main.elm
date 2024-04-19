@@ -8,13 +8,14 @@ module Main exposing (main)
 
 import Audio exposing (AudioCmd, AudioData)
 import Base exposing (Flags, Msg(..))
-import Browser.Events exposing (onKeyDown, onKeyUp, onMouseDown, onMouseMove, onMouseUp, onResize)
+import Browser.Events exposing (onKeyDown, onKeyUp, onMouseDown, onMouseMove, onMouseUp, onResize, onVisibilityChange)
 import Canvas
 import Canvas.Texture
 import Common exposing (Model, audio, initGlobalData, resetSceneStartTime, updateSceneStartTime)
 import Dict
 import Html exposing (Html)
 import Html.Attributes exposing (style)
+import Html.Events exposing (on)
 import Json.Decode as Decode
 import Lib.Audio.Audio exposing (audioPortFromJS, audioPortToJS, loadAudio, stopAudio)
 import Lib.Coordinate.Coordinates exposing (fromMouseToVirtual, getStartPoint, maxHandW)
@@ -293,6 +294,9 @@ update _ msg model =
             in
             ( { model | currentGlobalData = newgd }, Cmd.none, Audio.cmdNone )
 
+        WindowVisibility v ->
+            ( { model | currentGlobalData = { gd | windowVisibility = v } }, Cmd.none, Audio.cmdNone )
+
         MouseMove ( px, py ) ->
             let
                 mp =
@@ -421,6 +425,7 @@ subscriptions _ _ =
                 (Decode.field "repeat" Decode.bool)
             )
         , onResize (\w h -> NewWindowSize ( toFloat w, toFloat h ))
+        , onVisibilityChange (\v -> WindowVisibility v)
         , onMouseDown (Decode.map3 (\b x y -> MouseDown b ( x, y )) (Decode.field "button" Decode.int) (Decode.field "clientX" Decode.float) (Decode.field "clientY" Decode.float))
         , onMouseUp (Decode.map2 (\x y -> MouseUp ( x, y )) (Decode.field "clientX" Decode.float) (Decode.field "clientY" Decode.float))
         , onMouseMove (Decode.map2 (\x y -> MouseMove ( x, y )) (Decode.field "clientX" Decode.float) (Decode.field "clientY" Decode.float))
@@ -455,7 +460,7 @@ view _ model =
                 , makeTransition model.currentGlobalData transitiondata <| (getCurrentScene model).view { msg = NullMsg, t = model.time, globalData = model.currentGlobalData, commonData = () } model.currentData
                 ]
     in
-    Html.div []
+    Html.div [ on "wheel" (Decode.map MouseWheel (Decode.field "deltaY" Decode.int)) ]
         (case model.currentGlobalData.extraHTML of
             Just x ->
                 [ canvas, x ]

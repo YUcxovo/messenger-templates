@@ -25,6 +25,7 @@ This message is the GLOBAL scope message. This message limits what messsages you
 -}
 
 import Audio
+import Browser.Events exposing (Visibility)
 import Canvas.Texture exposing (Texture)
 import Dict exposing (Dict)
 import Html exposing (Html)
@@ -40,18 +41,22 @@ This is the msg data for main.
 
 `KeyDown`, `KeyUp` records the keyboard events
 
+`MouseWheel` records the wheel event for mouse, it can be also used for touchpad
+
 -}
 type Msg
     = Tick Time.Posix
     | KeyDown Int
     | KeyUp Int
     | NewWindowSize ( Float, Float )
+    | WindowVisibility Visibility
     | SoundLoaded String AudioOption (Result Audio.LoadError Audio.Source)
     | PlaySoundGotTime String AudioOption Audio.Source Time.Posix
     | TextureLoaded String (Maybe Texture)
     | MouseDown Int ( Float, Float )
     | MouseUp ( Float, Float )
     | MouseMove ( Float, Float )
+    | MouseWheel Int
     | Prompt String String
     | NullMsg
 
@@ -72,11 +77,14 @@ It is mainly used for display and reading/writing some localstorage data.
 
 `extraHTML` is used to render extra HTML tags. Be careful to use this.
 
+`windowVisibility` records whether users stay in this tab/window
+
 -}
 type alias GlobalData =
     { internalData : InternalData
     , sceneStartTime : Int
     , currentTimeStamp : Time.Posix
+    , windowVisibility : Visibility
     , mousePos : ( Float, Float )
     , extraHTML : Maybe (Html Msg)
     , localStorage : LSInfo
