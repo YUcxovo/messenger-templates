@@ -1,5 +1,14 @@
 module SceneProtos.$0.GameComponents.$1.Export exposing (initGC)
 
+{-| GameComponent Export
+
+Write a description here for how to use your gamecomponent.
+
+@docs initGC
+
+-}
+
+import Canvas exposing (Renderable)
 import Lib.Env.Env exposing (Env)
 import SceneProtos.$0.GameComponent.Base exposing (GameComponentInitData(..), DatawithID, GameComponentMsg, GameComponentTarget, addID)
 import SceneProtos.$0.GameComponents.GameComponentSettings exposing (GameComponentT, GameComponentType(..), $1Data, null$1Data)
@@ -17,7 +26,7 @@ datatoGCT dt =
 {-| gcttoData
 -}
 gcttoData : GameComponentType -> $1Data
-cttoData ct =
+gcttoData ct =
     case ct of
         GC$1Data x ->
             x
