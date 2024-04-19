@@ -7,16 +7,16 @@ import SceneProtos.$0.GameComponents.$1.Model exposing (initModel, updateModel, 
 import SceneProtos.$0.LayerBase exposing (CommonData)
 
 
-{-| datatoCT
+{-| datatoGCT
 -}
-datatoCT : $1Data -> GameComponentType
-datatoCT dt =
+datatoGCT : $1Data -> GameComponentType
+datatoGCT dt =
     GC$1Data dt
 
 
-{-| cttoData
+{-| gcttoData
 -}
-cttoData : GameComponentType -> $1Data
+gcttoData : GameComponentType -> $1Data
 cttoData ct =
     case ct of
         GC$1Data x ->
@@ -44,7 +44,7 @@ initGC e i =
         upd env dtid =
             let
                 ( rldt, newmsg, newenv ) =
-                    updateModel env <| cttoData dtid.otherdata
+                    updateModel env <| gcttoData dtid.otherdata
             in
             ( addID dtid.uid <| datatoGCT rldt, newmsg, newenv )
 
@@ -52,13 +52,13 @@ initGC e i =
         updrec env cm dtid =
             let
                 ( rldt, newmsg, newenv ) =
-                    updateModelRec env cm <| cttoData dtid.otherdata
+                    updateModelRec env cm <| gcttoData dtid.otherdata
             in
             ( addID dtid.uid <| datatoGCT rldt, newmsg, newenv )
 
         v : Env CommonData -> DatawithID GameComponentType -> List ( Renderable, Int )
         v env dtid =
-            viewModel env <| cttoData dtid.otherdata
+            viewModel env <| gcttoData dtid.otherdata
     in
     { name = "$1"
     , data = dt

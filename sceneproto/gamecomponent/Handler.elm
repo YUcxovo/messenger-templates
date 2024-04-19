@@ -90,7 +90,7 @@ Return a list of messages sent to the parentlayer.
 
 -}
 updateGC : Env CommonData -> List (GameComponent a) -> ( List (GameComponent a), List GameComponentMsg, Env CommonData )
-updateGC env xs =
+updateGC env =
     updateObjects recBody env
 
 
