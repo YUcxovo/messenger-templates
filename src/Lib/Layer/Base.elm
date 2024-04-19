@@ -79,13 +79,5 @@ LayerParentScene is used to send message to the parent scene of the layer.
 LayerName is used to send message to a specific layer.
 
 -}
-
-
-
--- type LayerTarget
---     = LayerParentScene
---     | LayerName String
-
-
 type LayerTarget
     = Layer ObjectTarget
