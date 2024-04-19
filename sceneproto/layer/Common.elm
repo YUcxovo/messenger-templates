@@ -7,7 +7,7 @@ module SceneProtos.$0.$1.Common exposing (Model, Env, nullModel)
 -}
 
 import Lib.Env.Env as Env
-import SceneProtos.$0.GameComponent.Base exposing (GameComponent)
+import SceneProtos.$0.GameComponents.GameComponentSettings exposing (GameComponentT)
 import SceneProtos.$0.LayerBase exposing (CommonData)
 
 
@@ -17,7 +17,7 @@ Add your own model data here.
 
 -}
 type alias Model =
-    { gamecomponents : List GameComponent 
+    { gamecomponents : List GameComponentT 
     }
 
 

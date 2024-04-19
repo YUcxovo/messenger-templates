@@ -8,10 +8,8 @@ module Scenes.$0.$1.Common exposing
 
 -}
 
-import Lib.Component.Base exposing (Component, ComponentMsg)
-import Lib.Component.ComponentHandler exposing (updateComponents)
+import Components.ComponentSettings exposing (ComponentT)
 import Lib.Env.Env as Env
-import Lib.Layer.Base exposing (LayerMsg, LayerTarget)
 import Scenes.$0.LayerBase exposing (CommonData)
 
 
@@ -19,7 +17,7 @@ import Scenes.$0.LayerBase exposing (CommonData)
 Add your own data here.
 -}
 type alias Model =
-    { components : List Component
+    { components : List ComponentT
     }
 
 
