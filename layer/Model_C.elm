@@ -12,10 +12,11 @@ module Scenes.$0.$1.Model exposing
 
 -}
 
+import Base exposing (ObjectTarget(..))
 import Canvas exposing (Renderable)
 import Lib.Component.Base exposing (ComponentMsg, ComponentTarget)
 import Lib.Component.ComponentHandler exposing (updateComponents, updateComponentswithTarget, viewComponent)
-import Lib.Env.Env exposing (noCommonData)
+import Lib.Env.Env exposing (noCommonData, addCommonData)
 import Lib.Layer.Base exposing (LayerMsg, LayerTarget(..))
 import Lib.Scene.Base exposing (MsgBase(..))
 import Scenes.$0.$1.Common exposing (Env, Model)
@@ -86,10 +87,10 @@ updateModel env model =
             updateBasic env model
 
         ( ncoms1, ncmsg1, nenvwoc1 ) =
-            updateComponents (Env.noCommonData nenv1) nm1.components
+            updateComponents (noCommonData nenv1) nm1.components
 
         nenv2 =
-            Env.addCommonData nenv1.commonData nenvwoc1
+            addCommonData nenv1.commonData nenvwoc1
 
         nm2 =
             { nm1 | components = ncoms1 }
@@ -98,10 +99,10 @@ updateModel env model =
             distributorComponents nenv2 nm2
 
         ( ncoms2, ncmsg2, nenvwoc2 ) =
-            updateComponentswithTarget (Env.noCommonData nenv3) ntocmsg nm3.components
+            updateComponentswithTarget (noCommonData nenv3) ntocmsg nm3.components
 
         nenv4 =
-            Env.addCommonData nenv3.commonData nenvwoc2
+            addCommonData nenv3.commonData nenvwoc2
     in
     List.foldl
         (\cTMsg ( m, cmsg, cenv ) ->
