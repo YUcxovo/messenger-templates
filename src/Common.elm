@@ -100,6 +100,7 @@ initGlobalData =
         , startTop = 0
         , sprites = Dict.empty
         }
+    , canvasReturnValue = []
     , currentTimeStamp = Time.millisToPosix 0
     , sceneStartTime = 0
     , windowVisibility = Visible

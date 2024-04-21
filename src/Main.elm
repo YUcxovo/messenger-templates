@@ -214,6 +214,20 @@ update _ msg model =
             model.currentGlobalData
     in
     case msg of
+        Canvas canvasValue ->
+            let
+                ogd =
+                    model.currentGlobalData
+
+                ngd =
+                    if canvasValue.valuetype == "clear" then
+                        { ogd | canvasReturnValue = [] }
+
+                    else
+                        { ogd | canvasReturnValue = canvasValue :: ogd.canvasReturnValue }
+            in
+            ( { model | currentGlobalData = ngd }, Cmd.none, Audio.cmdNone )
+
         TextureLoaded name Nothing ->
             ( model, alert ("Failed to load sprite " ++ name), Audio.cmdNone )
 
@@ -451,6 +465,7 @@ view _ model =
                 { width = floor model.currentGlobalData.internalData.realWidth
                 , height = floor model.currentGlobalData.internalData.realHeight
                 , textures = getTexture
+                , returnValues = ( model.currentGlobalData.canvasReturnValue, Canvas )
                 }
                 [ style "left" (String.fromFloat model.currentGlobalData.internalData.startLeft)
                 , style "top" (String.fromFloat model.currentGlobalData.internalData.startTop)

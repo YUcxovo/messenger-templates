@@ -29,6 +29,7 @@ import Browser.Events exposing (Visibility)
 import Canvas.Texture exposing (Texture)
 import Dict exposing (Dict)
 import Html exposing (Html)
+import Json.Encode as Encode
 import Lib.Audio.Base exposing (AudioOption)
 import Time
 
@@ -58,6 +59,7 @@ type Msg
     | MouseMove ( Float, Float )
     | MouseWheel Int
     | Prompt String String
+    | Canvas { label : String, valuetype : String, value : Encode.Value }
     | NullMsg
 
 
@@ -82,6 +84,7 @@ It is mainly used for display and reading/writing some localstorage data.
 -}
 type alias GlobalData =
     { internalData : InternalData
+    , canvasReturnValue : List { label : String, valuetype : String, value : Encode.Value }
     , sceneStartTime : Int
     , currentTimeStamp : Time.Posix
     , windowVisibility : Visibility

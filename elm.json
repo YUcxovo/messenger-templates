@@ -15,8 +15,8 @@
             "elm/random": "1.0.0",
             "elm/time": "1.0.0",
             "ianmackenzie/elm-units": "2.9.0",
-            "linsyking/elm-canvas": "4.0.0",
-            "linsyking/messenger-core": "7.0.0"
+            "linsyking/messenger-core": "7.0.0",
+            "YUcxovo/elm-canvas": "1.0.0"
         },
         "indirect": {
             "elm/url": "1.0.0",
